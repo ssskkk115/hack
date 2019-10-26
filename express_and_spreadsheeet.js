@@ -48,11 +48,12 @@ app.get('/random', async function(req, res) {
 
     // ランダム取得
     let currentItem;
+    let _oneitem;
     let firstFoodItem = getBottomPriceRandom( foodJSONData , basePrice );
     // はじめのフードが選択
     // console.log(firstFoodItem.length);
     if(firstFoodItem.length == 1){
-        let _oneitem = firstFoodItem[0];
+        _oneitem = firstFoodItem[0];
         currentItem = {
             "id": _oneitem[0],
             "name": _oneitem[1],
@@ -69,11 +70,11 @@ app.get('/random', async function(req, res) {
         // 登録
         randomList.push(currentItem);
     }
-    let firstDrinktem = getBottomPriceRandom( drinkJSONData , basePrice );
-    console.log(firstDrinktem.length);
+    let firstDrinkItem = getBottomPriceRandom( drinkJSONData , basePrice );
+    console.log(firstDrinkItem.length);
     // はじめのドリンクが選択
-    if(firstDrinktem.length == 1){
-        let _oneitem = firstDrinktem[0];
+    if(firstDrinkItem.length == 1){
+        _oneitem = firstDrinkItem[0];
         currentItem = {
             "id": _oneitem[0],
             "name": _oneitem[1],
@@ -89,6 +90,43 @@ app.get('/random', async function(req, res) {
 
         // 登録
         randomList.push(currentItem);
+    }
+
+    // 以降繰り返して探す ////////////////////////////////
+
+    // let currentMenuItem = firstFoodItem; // 食べ物オンリー
+    let currentMenuItem = firstFoodItem.concat(firstDrinkItem);  // 食べ物飲み物合わせたやつ
+
+    for( let repeatChoiceCount = 0 ; repeatChoiceCount < 5 ; repeatChoiceCount++ ){
+        
+        let selectedItem = getBottomPriceRandom( currentMenuItem , basePrice );
+        
+        console.log("追加せんべろ " + repeatChoiceCount + " 回目");
+
+        if(selectedItem.length == 1){
+
+            console.log("追加せんべろ OK");
+
+            _oneitem = selectedItem[0];
+            currentItem = {
+                "id": _oneitem[0],
+                "name": _oneitem[1],
+                "price": Number(_oneitem[2]),
+                "image": _oneitem[3],
+                "oshi_message": _oneitem[4],
+                "oshi_image": _oneitem[5],
+            }
+    
+            // 選択されたメニューぶんベース金額を減らす
+            basePrice = basePrice - currentItem.price;
+            console.log("basePrice : " + basePrice);
+    
+            // 登録
+            randomList.push(currentItem);
+        } else {
+            console.log("追加せんべろ NG");
+        }
+
     }
 
     console.log(randomList)
@@ -115,15 +153,15 @@ function getBottomPriceRandom(items,base_price){
         item_price = Number(item[2]);
         item_name = item[1];
         if(base_price > item_price){
-            console.log("* OK " + item_name);
+            // console.log("* OK " + item_name);
             new_items.push(item);
         } else {
-            console.log("NG " + item_name);
+            // console.log("NG " + item_name);
         }
     });
 
-    console.log("下回った候補");
-    console.log(new_items);
+    // console.log("下回った候補");
+    // console.log(new_items);
 
     // もし 1以上 候補があれば、ランダム取得
     if( new_items.length > 0 ){

@@ -43,6 +43,11 @@
             <p id="price">-- 円<p>
           </div>
 
+          <div class="box_menu">
+            <h2 id="name">アイテム5</h2>
+            <p id="price">-- 円<p>
+          </div>
+
           <div id="all_price">
               <h2>合計 -- 円</h2>
           </div>
@@ -71,20 +76,30 @@
             .then(function (response) {
               let data = response.data;
               // handle success
-              console.log(response);
+              // console.log(response);
               // DOM
               let item;
               let element;
+              let box_menu_elements = $('#result .box_menu');
+
+              for( let i = 0 ; i < box_menu_elements.length ; i++ ){
+                element = $('#result .box_menu')[i];
+                $(element).hide();
+              }
+
 
               item = data[0];
               element = $('#result .box_menu')[0];
               $(element).children('#name').text(String(item.name));
               $(element).children('#price').text(String(item.price) + "円！");
+              $(element).show();
 
               item = data[1];
               element = $('#result .box_menu')[1];
               $(element).children('#name').text(String(item.name));
               $(element).children('#price').text(String(item.price) + "円！");
+              $(element).show();
+              
             })
             .catch(function (error) {
               // handle error

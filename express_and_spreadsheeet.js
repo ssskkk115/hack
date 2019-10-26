@@ -64,11 +64,13 @@ app.get('/random', async function(req, res) {
         "oshi_image": randDrinkData[5],
     });
 
-    console.log(randomList);
+    console.log(randomList)
 
+    // APIの返答
     await res.json(randomList);
 
 });
 
 
-console.log("server start! (express_server2)");
+
+console.log("server start! (yoro-hackathon))");

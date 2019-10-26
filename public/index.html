@@ -31,26 +31,31 @@
           <hr />
           
           <div class="box_menu">
+            <img id="image" src="/img/img01.jpg" width="200">
             <h2 id="name">アイテム1</h2>
             <p id="price">-- 円<p>
           </div>
           
           <div class="box_menu">
+            <img id="image" src="/img/img01.jpg" width="200">
             <h2 id="name">アイテム2</h2>
             <p id="price">-- 円<p>
           </div>
           
           <div class="box_menu">
+            <img id="image" src="/img/img01.jpg" width="200">
             <h2 id="name">アイテム3</h2>
             <p id="price">-- 円<p>
           </div>
-
+          
           <div class="box_menu">
+            <img id="image" src="/img/img01.jpg" width="200">
             <h2 id="name">アイテム4</h2>
             <p id="price">-- 円<p>
           </div>
-
+          
           <div class="box_menu">
+            <img id="image" src="/img/img01.jpg" width="200">
             <h2 id="name">アイテム5</h2>
             <p id="price">-- 円<p>
           </div>
@@ -92,7 +97,9 @@
                 element = box_menu_elements[i];
                 $(element).children('#name').text(String(item.name));
                 $(element).children('#price').text(String(item.price) + "円！");
+                $(element).children('#image').attr("src",String(item.image));
                 $(element).show();
+                console.log(item.image);
               }
 
               $('#all_price #price').text("合計 " + String(data.allPrice) + " 円！");

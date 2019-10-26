@@ -18,6 +18,7 @@ app.get('/apple', function(req, res) {
 app.get('/random', async function(req, res) {
 
     let basePrice = 1000;  // 1000円スタート
+    let allPrice = 0;
 
     // axios でスプレッドシートのURLからCSV形式で取得 foodData
     let foodResponse = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQg_P87vLW61nngA4KXupPO4cTReuUcfDm4v0KGbocn3uJ0016YMl8NfzELjjwllB4_sg2L2g5pC3ch/pub?gid=0&single=true&output=csv');
@@ -27,7 +28,10 @@ app.get('/random', async function(req, res) {
 
     // console.log(foodResponse.data);
 
-    randomList = [];
+    responseJSON = {
+        allPrice:0,
+        list:[]
+    };
 
     // 読み込んだデータをJSONに変換
     let converterFood = csvtojson({
@@ -65,10 +69,11 @@ app.get('/random', async function(req, res) {
 
         // 選択されたメニューぶんベース金額を減らす
         basePrice = basePrice - currentItem.price;
+        allPrice = allPrice + currentItem.price;
         console.log("basePrice : " + basePrice);
 
         // 登録
-        randomList.push(currentItem);
+        responseJSON.list.push(currentItem);
     }
     let firstDrinkItem = getBottomPriceRandom( drinkJSONData , basePrice );
     console.log(firstDrinkItem.length);
@@ -86,10 +91,11 @@ app.get('/random', async function(req, res) {
 
         // 選択されたメニューぶんベース金額を減らす
         basePrice = basePrice - currentItem.price;
+        allPrice = allPrice + currentItem.price;
         console.log("basePrice : " + basePrice);
 
         // 登録
-        randomList.push(currentItem);
+        responseJSON.list.push(currentItem);
     }
 
     // 以降繰り返して探す ////////////////////////////////
@@ -119,20 +125,23 @@ app.get('/random', async function(req, res) {
     
             // 選択されたメニューぶんベース金額を減らす
             basePrice = basePrice - currentItem.price;
+            allPrice = allPrice + currentItem.price;
             console.log("basePrice : " + basePrice);
     
             // 登録
-            randomList.push(currentItem);
+            responseJSON.list.push(currentItem);
         } else {
             console.log("追加せんべろ NG");
         }
 
     }
 
-    console.log(randomList)
+    // console.log(randomList);
+
+    responseJSON.allPrice = allPrice;
 
     // APIの返答
-    await res.json(randomList);
+    await res.json(responseJSON);
 
 });
 

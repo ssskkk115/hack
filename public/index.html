@@ -49,7 +49,7 @@
           </div>
 
           <div id="all_price">
-              <h2>合計 -- 円</h2>
+              <h2 id="price">合計 -- 円</h2>
           </div>
   
           <div id="oshi_menu">
@@ -87,19 +87,21 @@
                 $(element).hide();
               }
 
+              for( let i = 0 ; i < data.list.length ; i++ ){
+                item = data.list[i];
+                element = box_menu_elements[i];
+                $(element).children('#name').text(String(item.name));
+                $(element).children('#price').text(String(item.price) + "円！");
+                $(element).show();
+              }
 
-              item = data[0];
-              element = $('#result .box_menu')[0];
-              $(element).children('#name').text(String(item.name));
-              $(element).children('#price').text(String(item.price) + "円！");
-              $(element).show();
-
-              item = data[1];
-              element = $('#result .box_menu')[1];
-              $(element).children('#name').text(String(item.name));
-              $(element).children('#price').text(String(item.price) + "円！");
-              $(element).show();
+              $('#all_price #price').text("合計 " + String(data.allPrice) + " 円！");
               
+              let rand_oshi_id = Math.floor(Math.random() * data.list.length);
+              let rand_oshi_item = data.list[rand_oshi_id];
+              $('#oshi_menu #message').text(String(rand_oshi_item.oshi_message));
+              $('#oshi_menu #image').attr("src",String(rand_oshi_item.oshi_image));
+
             })
             .catch(function (error) {
               // handle error

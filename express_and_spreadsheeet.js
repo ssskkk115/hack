@@ -33,7 +33,14 @@ app.get('/random', function(req, res) {
                     console.log(rand_data[1]);
                     
                     // JSONでかえるようにする
-                    var jsonData = { "message":rand_data[1]};
+                    var jsonData = {
+                        "id":rand_data[0],
+                        "name":rand_data[1],
+                        "price":rand_data[2],
+                        "image":rand_data[3],
+                        "oshi_message":rand_data[4],
+                        "oshi_image":rand_data[5],
+                    };
 
                     res.json(jsonData);
                 });

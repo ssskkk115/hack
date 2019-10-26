@@ -1,0 +1,25 @@
+{
+  "name": "yoro-hack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express_and_spreadsheeet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssskkk115/hack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssskkk115/hack/issues"
+  },
+  "homepage": "https://github.com/ssskkk115/hack#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1"
+  }
+}

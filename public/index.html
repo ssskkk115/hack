@@ -6,47 +6,42 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
-    <link rel="stylesheet"  href="/css/style.css">
+    <link rel="stylesheet"  href="./css/style.css">
   </head>
   <body>
     <p>Hello, World!</p>
     <div class=page>
         <div class = "heading">
-          <h1><img src="/img/logo.png"></h1>
+          <h1><img src="./img/logo.png"></h1>
         </div>
         
       
-        <div class = "button">
-          <!--
-          <form action="/random" method=get class=add-entry>
-            <button type=submit name=get value=Get class = "btn">一軒め酒場でセンベロ！</button>
-          </form>
-        -->
-          <a href="/random" class="btn">一軒め酒場でセンベロ！</a>
+        <div class="button">
+          <a href="#" id="btn_senbero">一軒め酒場でセンベロ！</a>
         </div>
       
       
-        <div class="result">
+        <div id="result">
           
-          <div class="box menu">
-            <h2 id="response">〆さばごま醤油掛け</h2>
-              <p>319円<p>
+          <div id="box_menu1">
+            <h2 id="name">〆さばごま醤油掛け</h2>
+            <p id="price">319円<p>
           </div>
           
-          <div class="box menu">
+          <div class="box_menu">
             <h2>まぐろたたき</h2>
               <p>352円<p>
           </div>
           
-          <div class="box menu">
+          <div class="box_menu">
             <h2>バクハイ</h2>
               <p>319円<p>
           </div>
-          <div class="box rst">
+          <div class="box_menu">
               <h2>合計 990円</h2>
           </div>
   
-          <div class="oshi">
+          <div class="oshi_menu">
             <p>価格が安いというだけで品質が担保できない食材は使用していません</p>
             <img src="/img/img01.jpg">
           </div>
@@ -58,25 +53,34 @@
           
       
         </div>
-    <script>
-        axios.get('/random')
-        .then(function (response) {
-            // handle success
-            console.log(response);
-            // DOM
-            document.getElementById("response").textContent = String(response.data.message);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        .finally(function () {
-            // always executed
-        });
-    </script>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+      $('#btn_senbero').click(
+        function (e) {
+          console.log('click');
+          axios.get('/random')
+            .then(function (response) {
+              // handle success
+              console.log(response);
+              // DOM
+              $("#result #box_menu1 #name").text(String(response.data.name));
+              $("#result #box_menu1 #price").text(String(response.data.price) + "円！");
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+            })
+            .finally(function () {
+              // always executed
+            });
+        }
+      );
+
+      
+  </script>
   </body>
 </html>
 

@@ -1,0 +1,57 @@
+body {
+    font-family: 'ヒラギノ角ゴシック','Hiragino Sans',YuGothic,'Yu Gothic',sans-serif;
+    background: #113575;
+    text-align: center;
+
+
+}
+
+
+.response{ 
+    color: red;
+}
+h1, h2 {
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+
+.page {
+    margin: 2em auto;
+    width: 980px;
+    border: 2px #113575;
+    padding: 1em;
+    background: white;
+  }
+  
+
+.button {
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  
+  /* ここから下がボタンのCSS　*/
+  .btn {
+    display: inline-block;
+    max-width: 250px;
+    text-align: left;
+    border: 2px solid #113575;
+    font-size: 16px;
+    color: #113575;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: .4s;
+  }
+  
+  .btn:hover {
+    background-color: #113575;
+    color: #FFF;
+  }
+
+  .rst{
+      margin-bottom: 40px;
+  }

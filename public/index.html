@@ -23,14 +23,14 @@
       
         <div id="result">
           
-          <div id="box_menu1">
+          <div class="box_menu">
             <h2 id="name">〆さばごま醤油掛け</h2>
             <p id="price">319円<p>
           </div>
           
           <div class="box_menu">
-            <h2>まぐろたたき</h2>
-              <p>352円<p>
+            <h2 id="name">〆さばごま醤油掛け</h2>
+            <p id="price">319円<p>
           </div>
           
           <div class="box_menu">
@@ -63,11 +63,22 @@
           console.log('click');
           axios.get('/random')
             .then(function (response) {
+              let data = response.data;
               // handle success
               console.log(response);
               // DOM
-              $("#result #box_menu1 #name").text(String(response.data.name));
-              $("#result #box_menu1 #price").text(String(response.data.price) + "円！");
+              let item;
+              let element;
+
+              item = data[0];
+              element = $('#result .box_menu')[0];
+              $(element).children('#name').text(String(item.name));
+              $(element).children('#price').text(String(item.price) + "円！");
+
+              item = data[1];
+              element = $('#result .box_menu')[1];
+              $(element).children('#name').text(String(item.name));
+              $(element).children('#price').text(String(item.price) + "円！");
             })
             .catch(function (error) {
               // handle error

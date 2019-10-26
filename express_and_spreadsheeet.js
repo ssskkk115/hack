@@ -15,42 +15,58 @@ app.get('/apple', function(req, res) {
   res.send('Apple!!!!\n');
 });
 
-app.get('/random', function(req, res) {
+app.get('/random', async function(req, res) {
+    // axios でスプレッドシートのURLからCSV形式で取得 foodData
+    let foodResponse = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQg_P87vLW61nngA4KXupPO4cTReuUcfDm4v0KGbocn3uJ0016YMl8NfzELjjwllB4_sg2L2g5pC3ch/pub?gid=0&single=true&output=csv');
+
+    // axios でスプレッドシートのURLからCSV形式で取得 drinkData
+    let drinkResponse = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQg_P87vLW61nngA4KXupPO4cTReuUcfDm4v0KGbocn3uJ0016YMl8NfzELjjwllB4_sg2L2g5pC3ch/pub?gid=1909832428&single=true&output=csv');
+
+    // console.log(foodResponse.data);
+
+    randomList = [];
+
+    // 読み込んだデータをJSONに変換
+    const converterFood = csvtojson({
+        noheader: false,  // 1行目がヘッダーの場合はfalse
+        output: "csv"
+    });
     
-    // axios でスプレッドシートのURLからCSV形式で取得
-    axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQg_P87vLW61nngA4KXupPO4cTReuUcfDm4v0KGbocn3uJ0016YMl8NfzELjjwllB4_sg2L2g5pC3ch/pub?gid=1909832428&single=true&output=csv')
-        .then(function (response) {
-            // 読み込んだデータをJSONに変換
-            csvtojson({
-                noheader: false,  // 1行目がヘッダーの場合はfalse
-                output: "csv"
-            })
-                .fromString(response.data)
-                .then((csvRow) => {
-                    // ランダム取得
-                    const rand_len = Math.floor(Math.random() * csvRow.length);
-                    const rand_data = csvRow[rand_len];
-                    console.log(rand_data[1]);
-                    
-                    // JSONでかえるようにする
-                    var jsonData = {
-                        "id":rand_data[0],
-                        "name":rand_data[1],
-                        "price":rand_data[2],
-                        "image":rand_data[3],
-                        "oshi_message":rand_data[4],
-                        "oshi_image":rand_data[5],
-                    };
+    const foodJSONData = await converterFood.fromString(foodResponse.data);
 
-                    res.json(jsonData);
-                });
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .finally(function () {
+    const converterDrink = csvtojson({
+        noheader: false,  // 1行目がヘッダーの場合はfalse
+        output: "csv"
+    });
+    const drinkJSONData = await converterDrink.fromString(drinkResponse.data);
 
-        });
+    // ランダム取得
+    let randFoodID = Math.floor(Math.random() * foodJSONData.length);
+    let randFoodData = foodJSONData[randFoodID];
+    let randDrinkID = Math.floor(Math.random() * drinkJSONData.length);
+    let randDrinkData = drinkJSONData[randDrinkID];
+
+    randomList.push({
+        "id": randFoodData[0],
+        "name": randFoodData[1],
+        "price": randFoodData[2],
+        "image": randFoodData[3],
+        "oshi_message": randFoodData[4],
+        "oshi_image": randFoodData[5],
+    });
+
+    randomList.push({
+        "id": randDrinkData[0],
+        "name": randDrinkData[1],
+        "price": randDrinkData[2],
+        "image": randDrinkData[3],
+        "oshi_message": randDrinkData[4],
+        "oshi_image": randDrinkData[5],
+    });
+
+    console.log(randomList);
+
+    await res.json(randomList);
 
 });
 

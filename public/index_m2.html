@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <title>Hello Server!</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <link rel="stylesheet"  href="./css/style2.css">
+    
+  </head>
+  <body>
+    <div class="container">
+        <!-- Page Content goes here -->
+
+        <div class="row center-align">
+            <div class="col s12">
+                <h1><img class="responsive-img" src="./img/logo.png"></h1>
+            </div>
+
+            <div class="col s12">
+                <a class="waves-effect waves-light btn" id="btn_senbero"><i class="material-icons left">cloud</i>一軒め酒場でセンベロ！</a>
+            </div>
+
+            <div class="col s12" id="result">
+
+                <div class="card-panel small" id="oshi_menu">
+                    <img id="image" class="responsive-img" src="/img/img01.jpg" width="200">
+                    <h5 id="message">----</h5>
+                </div>
+
+                <div id="all_price card-panel small">
+                    <h4 id="price">合計 -- 円</h4>
+                </div>
+
+                <ul class="collection left-align">
+                    <li class="collection-item avatar box_menu">
+                        <img id="image" class="responsive-img" src="/img/img01.jpg" width="100">
+                        <span class="title" id="name">アイテム</span>
+                        <span id="price">-- 円</span>
+                    </li>
+
+                    <li class="collection-item avatar box_menu">
+                        <img id="image" class="responsive-img" src="/img/img01.jpg" width="100">
+                        <span class="title" id="name">アイテム</span>
+                        <span id="price">-- 円</span>
+                    </li>
+
+                    <li class="collection-item avatar box_menu">
+                        <img id="image" class="responsive-img" src="/img/img01.jpg" width="100">
+                        <span class="title" id="name">アイテム</span>
+                        <span id="price">-- 円</span>
+                    </li>
+
+                    <li class="collection-item avatar box_menu">
+                        <img id="image" class="responsive-img" src="/img/img01.jpg" width="100">
+                        <span class="title" id="name">アイテム</span>
+                        <span id="price">-- 円</span>
+                    </li>
+
+                    <li class="collection-item avatar box_menu">
+                        <img id="image" class="responsive-img" src="/img/img01.jpg" width="100">
+                        <span class="title" id="name">アイテム</span>
+                        <span id="price">-- 円</span>
+                    </li>
+                </ul>
+                
+            </div>
+
+            <div class="col s12" class="footer">
+                    <a href="https://twitter.com/share" class="twitter-share-button"  data-url="" data-text="{{ text }}" data-lang="ja" data-count="horizontal" data-hashtags="" data-size="large">Tweet</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+      $('#btn_senbero').click(
+        function (e) {
+          console.log('click');
+          axios.get('/random')
+            .then(function (response) {
+              let data = response.data;
+              // handle success
+              // console.log(response);
+              // DOM
+              let item;
+              let element;
+              let box_menu_elements = $('#result .box_menu');
+
+              for( let i = 0 ; i < box_menu_elements.length ; i++ ){
+                element = $('#result .box_menu')[i];
+                $(element).hide();
+              }
+
+              for( let i = 0 ; i < data.list.length ; i++ ){
+                item = data.list[i];
+                element = box_menu_elements[i];
+                $(element).children('#name').text(String(item.name));
+                $(element).children('#price').text(String(item.price) + "円！");
+                $(element).children('#image').attr("src",String(item.image));
+                $(element).show();
+                // console.log(element);
+              }
+
+              $('#all_price #price').text("合計 " + String(data.allPrice) + " 円！");
+              
+              let rand_oshi_id = Math.floor(Math.random() * data.list.length);
+              let rand_oshi_item = data.list[rand_oshi_id];
+              $('#oshi_menu #message').text(String(rand_oshi_item.oshi_message));
+              $('#oshi_menu #image').attr("src",String(rand_oshi_item.oshi_image));
+
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+            })
+            .finally(function () {
+              // always executed
+            });
+        }
+      );
+
+      
+  </script>
+  </body>
+</html>
+

@@ -84,54 +84,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script>
-      $('#btn_senbero').click(
-        function (e) {
-          console.log('click');
-          axios.get('/random')
-            .then(function (response) {
-              let data = response.data;
-              // handle success
-              // console.log(response);
-              // DOM
-              let item;
-              let element;
-              let box_menu_elements = $('#result .box_menu');
 
-              for( let i = 0 ; i < box_menu_elements.length ; i++ ){
-                element = $('#result .box_menu')[i];
-                $(element).hide();
-              }
-
-              for( let i = 0 ; i < data.list.length ; i++ ){
-                item = data.list[i];
-                element = box_menu_elements[i];
-                $(element).children('#name').text(String(item.name));
-                $(element).children('#price').text(String(item.price) + "円！");
-                $(element).children('#image').attr("src",String(item.image));
-                $(element).show();
-                console.log(element);
-              }
-
-              $('#all_price #price').text("合計 " + String(data.allPrice) + " 円！");
-              
-              let rand_oshi_id = Math.floor(Math.random() * data.list.length);
-              let rand_oshi_item = data.list[rand_oshi_id];
-              $('#oshi_menu #message').text(String(rand_oshi_item.oshi_message));
-              $('#oshi_menu #image').attr("src",String(rand_oshi_item.oshi_image));
-
-            })
-            .catch(function (error) {
-              // handle error
-              console.log(error);
-            })
-            .finally(function () {
-              // always executed
-            });
-        }
-      );
-
-      
-  </script>
+        // 初動は全部消す ///////////////////////////////
+        $('#result').hide();
+        $('#all_price').hide();
+        $('#oshi_menu').hide();
+  
+        $('#btn_senbero').click(
+          function (e) {
+            console.log('click');
+  
+            // クリック前は全部消す ///////////////////////////////
+            $('#result').hide();
+            $('#all_price').hide();
+            $('#oshi_menu').hide();
+  
+            axios.get('/random')
+              .then(function (response) {
+                let data = response.data;
+                // DOM
+                let item;
+                let element;
+                let box_menu_elements = $('#result .box_menu');
+  
+                // 読み込んだら全表示 ///////////////////////////////
+                $('#result').show();
+                $('#all_price').show();
+                $('#oshi_menu').show();
+  
+                // 以下、データに応じて表示設定 ///////////////////////////////
+  
+                for( let i = 0 ; i < box_menu_elements.length ; i++ ){
+                  element = $('#result .box_menu')[i];
+                  $(element).hide();
+                }
+  
+                for( let i = 0 ; i < data.list.length ; i++ ){
+                  item = data.list[i];
+                  element = box_menu_elements[i];
+                  $(element).children('#name').text(String(item.name));
+                  $(element).children('#price').text(String(item.price) + "円！");
+                  $(element).children('#image').attr("src",String(item.image));
+                  $(element).show();
+                  // console.log(element);
+                }
+  
+                $('#all_price #price').text("合計 " + String(data.allPrice) + " 円！");
+                
+                let rand_oshi_id = Math.floor(Math.random() * data.list.length);
+                let rand_oshi_item = data.list[rand_oshi_id];
+                $('#oshi_menu #message').text(String(rand_oshi_item.oshi_message));
+                $('#oshi_menu #image').attr("src",String(rand_oshi_item.oshi_image));
+  
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+              .finally(function () {
+                // always executed
+              });
+          }
+        );
+        
+    </script>
   </body>
 </html>
 

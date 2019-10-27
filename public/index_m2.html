@@ -87,18 +87,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script>
+
+      // 初動は全部消す ///////////////////////////////
+      $('#result').hide();
+      $('#all_price').hide();
+      $('#oshi_menu').hide();
+
       $('#btn_senbero').click(
         function (e) {
           console.log('click');
+
+          // クリック前は全部消す ///////////////////////////////
+          $('#result').hide();
+          $('#all_price').hide();
+          $('#oshi_menu').hide();
+
           axios.get('/random')
             .then(function (response) {
               let data = response.data;
-              // handle success
-              // console.log(response);
               // DOM
               let item;
               let element;
               let box_menu_elements = $('#result .box_menu');
+
+              // 読み込んだら全表示 ///////////////////////////////
+              $('#result').show();
+              $('#all_price').show();
+              $('#oshi_menu').show();
+
+              // 以下、データに応じて表示設定 ///////////////////////////////
 
               for( let i = 0 ; i < box_menu_elements.length ; i++ ){
                 element = $('#result .box_menu')[i];
@@ -132,7 +149,6 @@
             });
         }
       );
-
       
   </script>
   </body>

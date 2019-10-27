@@ -101,7 +101,7 @@ app.get('/random', async function(req, res) {
     // 以降繰り返して探す ////////////////////////////////
 
     // let currentMenuItem = firstFoodItem; // 食べ物オンリー
-    let currentMenuItem = firstFoodItem.concat(firstDrinkItem);  // 食べ物飲み物合わせたやつ
+    let currentMenuItem = foodJSONData.concat(drinkJSONData);  // 食べ物飲み物合わせたやつ
 
     for( let repeatChoiceCount = 0 ; repeatChoiceCount < 5 ; repeatChoiceCount++ ){
         

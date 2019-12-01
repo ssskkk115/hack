@@ -9,7 +9,7 @@ var app = express();
 // public というフォルダに入れられた静的ファイルはそのまま表示
 app.use(express.static(__dirname + '/public'));
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);
 
 app.get('/apple', function(req, res) {
   res.send('Apple!!!!\n');
